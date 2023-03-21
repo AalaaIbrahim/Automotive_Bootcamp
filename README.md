@@ -1,3 +1,3 @@
 # Automotive Bootcamp
 
-A demo for creating and managing a git repository.
+A repo for all assigned projects and tasks during the SPRINTS Automotive Bootcamp.
