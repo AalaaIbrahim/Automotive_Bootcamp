@@ -1,4 +1,5 @@
-#Case Study
+## Case Study
+
 	You are requested to lead a team to develop a digital discount card 
 	(similar to Xclusive, Elshaye3 card, ...) using a mobile app.
 
