@@ -1,0 +1,11 @@
+-Program manager
+-Project manager
+-Customer
+-Sponsor(s)
+-Development team
+-Government
+-Other Corporate Teams (marketing, accounting, legal,...)
+-Google (for maps and other cloud services)
+-Concerned service providers (restaurants, stores, ..)
+-Mobile App stores
+-End users
