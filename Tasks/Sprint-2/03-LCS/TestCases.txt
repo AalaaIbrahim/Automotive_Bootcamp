@@ -1,0 +1,56 @@
+Copy the elements in each test case and right click on the console to paste them.
+(press Enter after the last element and then press it again to indicate the end of the array)
+
+Test case 1:
+9
+0
+7
+5
+3
+8
+-10
+4
+2
+1
+
+Test case 2:
+press enter without entering elements
+
+Test case 3:
+9
+0
+7
+5
+3
+8
+-10
+4
+2
+1
+6
+12
+
+
+Test Case 4
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+Test Case 5 
+2
+8
+4
+10
+6
+20
+16
+12
+14
+16
