@@ -105,19 +105,15 @@ void setPlayerConfig(uint8_t *configArray)
 {
     printf("Player 1, Enter your preferred symbol (x / o): ");
     while(getPlayerSymbol(1, &configArray[0])){
-        printf("\033[0;31m");
         printf("Player 1, Invalid symbol! please enter 'x' or 'o': ");
-        printf("\033[0m");
     }
 
     printf("\nPlayer 2, Enter your preferred symbol (x / o): ");
     while(getPlayerSymbol(2, &configArray[1])){
-        printf("\033[0;31m");
         if(configArray[0] == 'x')
             printf("Player 2, Invalid symbol! please enter 'o': ");
         else
             printf("Player 2, Invalid symbol! please enter 'x': ");
-        printf("\033[0m");
     }
     system("cls");
 }
@@ -132,20 +128,11 @@ void loadAndUpdate(uint8_t playerNumber)
     int position;
     /* Prompt the player for where he wants to play */
     printf("Player %d, Where do you want to play? ", playerNumber+1);
-    scanf("%d", &position);
 
     /* Check if the position is already taken or out of range, prompt the player to enter it again*/
-    while('x' == gameBoard[position-1] || 'o' == gameBoard[position-1] || position > 9 || position < 1)
+    while((scanf("%i", &position)!=1 && scanf("%*[^\n]") == 0) || 'x' == gameBoard[position-1] || 'o' == gameBoard[position-1] || position > 9 || position < 1)
     {
-        printf("\033[0;31m");   //red
-        if (position > 9 || position < 1) {
-            printf("Invalid position! Pick another one: ");
-        }
-        else {
-            printf("This position is already taken, pick another one: ");
-        }
-        scanf("%d", &position);
-        printf("\033[0m");      //default
+        printf("\033[0;31mInvalid position! Pick another one:\033[0m ");
     }
 
     /* Update the board with the player's turn */
