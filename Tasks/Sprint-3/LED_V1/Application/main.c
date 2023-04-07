@@ -1,11 +1,11 @@
+#include "APP/App.h"
 
-int main(void)
+void main(void)
 {
 	App_Init();
 	
 	while(1)
 	{
 		App();
-	}	
+	}
 }
-

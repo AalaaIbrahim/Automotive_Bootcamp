@@ -27,14 +27,14 @@ typedef enum
 }EN_LEDErrorState_t;
 
 /**
- * enables displaying output on given led 
+ * enables displaying output on given led
 */
-EN_LEDErrorState_t SW_u8EnableLED(ST_LED* Copy_LED);
+EN_LEDErrorState_t LED_EnableLED(ST_LED* Copy_LED);
 
 /**
- * Disables displaying output on given led 
+ * Disables displaying output on given led
  */
-EN_LEDErrorState_t SW_u8DisableSwitch(ST_LED* Copy_LED);
+EN_LEDErrorState_t LED_DisableLED(ST_LED* Copy_LED);
 
 /**
  * Set the state of the given led to On/Off
@@ -42,7 +42,7 @@ EN_LEDErrorState_t SW_u8DisableSwitch(ST_LED* Copy_LED);
 EN_LEDErrorState_t LED_setState(ST_LED* Copy_LED, EN_LEDState Copy_LEDState);
 
 /**
- * Toggles the given given led 
+ * Toggles the given given led
  */
 
 EN_LEDErrorState_t LED_Toggle(ST_LED* Copy_Led);

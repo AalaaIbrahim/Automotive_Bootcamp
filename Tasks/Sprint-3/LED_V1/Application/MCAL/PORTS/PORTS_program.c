@@ -1,11 +1,9 @@
+#include "../../Services/STD_TYPES.h"
 
-#include "../../LIB/STD_TYPES.h"
-#include "../../LIB/BIT_MATH.h"
-
-#include "PORT_config.h"
-#include "PORT_private.h"
-#include "PORT_interface.h"
-#include "PORT_register.h"
+#include "PORTS_config.h"
+#include "PORTS_private.h"
+#include "PORTS_interface.h"
+#include "PORTS_register.h"
 
 void PORT_voidInit(void)
 {

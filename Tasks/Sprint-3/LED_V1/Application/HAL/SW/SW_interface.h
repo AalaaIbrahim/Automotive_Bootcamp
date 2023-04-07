@@ -1,4 +1,3 @@
-
 #ifndef HAL_SW_SW_INTERFACE_H_
 #define HAL_SW_SW_INTERFACE_H_
 
@@ -30,8 +29,8 @@ typedef enum
 }EN_SWValue_t;
 
 
-uint8_t SW_u8EnableSwitch(ST_Switch* Copy_pSW_tSwitch);
-uint8_t SW_u8DisableSwitch(ST_Switch* Copy_pSW_tSwitch);
-uint8_t SW_u8ReadSwitch(ST_Switch* Copy_pSW_tSwitch, uint8_t* Copy_pu8SwitchState);
+uint8_t SW_EnableSwitch(ST_Switch* Copy_pSW_tSwitch);
+uint8_t SW_DisableSwitch(ST_Switch* Copy_pSW_tSwitch);
+uint8_t SW_ReadSwitch(ST_Switch* Copy_pSW_tSwitch, uint8_t* Copy_pu8SwitchState);
 
 #endif

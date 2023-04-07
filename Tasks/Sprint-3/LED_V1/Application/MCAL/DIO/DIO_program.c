@@ -1,12 +1,8 @@
-#include "../../LIB/STD_TYPES.h"
-#include "../../LIB/BIT_MATH.h"
+#include "../../Services/STD_TYPES.h"
+#include "../../Services/BIT_MATH.h"
 
-#include "DIO_config.h"
-#include "DIO_private.h"
 #include "DIO_register.h"
 #include "DIO_interface.h"
-
-
 
 
 /**
@@ -15,7 +11,7 @@
  * @param Copy_Pin the pin number in the given port
  * @return error status
  */
-EN_DIOErrorState_t DIO_u8SetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t Copy_Value)
+EN_DIOErrorState_t DIO_SetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t Copy_Value)
 {
 	uint8_t Local_u8ErrorStatus = OK;
 
@@ -56,7 +52,7 @@ EN_DIOErrorState_t DIO_u8SetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t C
  * @param Copy_Value the desired value to set the entire port to
  * @return error status
  */
-uint8_t DIO_u8SetPortVal(uint8_t Copy_Port, uint8_t Copy_Value)
+EN_DIOErrorState_t DIO_SetPortVal(uint8_t Copy_Port, uint8_t Copy_Value)
 {
 	uint8_t Local_u8ErrorStatus = OK;
 
@@ -79,7 +75,7 @@ uint8_t DIO_u8SetPortVal(uint8_t Copy_Port, uint8_t Copy_Value)
  * @param Copy_pu8Val pointer to a variable to store pin value
  * @return error status
  */
-EN_DIOErrorState_t DIO_u8GetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t* Copy_pu8Val)
+EN_DIOErrorState_t DIO_GetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t* Copy_pu8Val)
 {
 	uint8_t Local_u8ErrorStatus = OK;
 
@@ -105,7 +101,7 @@ EN_DIOErrorState_t DIO_u8GetPinVal(uint8_t Copy_Port,uint8_t Copy_Pin, uint8_t* 
  * @param Copy_Pin the pin number in the given port
  * @return error status
  */
-uint8_t DIO_u8TogglePin(uint8_t Copy_Port,uint8_t Copy_Pin)
+EN_DIOErrorState_t DIO_TogglePin(uint8_t Copy_Port, uint8_t Copy_Pin)
 {
 	uint8_t Local_u8ErrorStatus = OK;
 
