@@ -1,0 +1,104 @@
+#include "../../Services/STD_TYPES.h"
+
+#include "../../MCAL/DIO/DIO_interface.h"
+#include "../../MCAL/EXTI/EXTI_interface.h"
+
+#include "SW_interface.h"
+
+/*================= Global Variables ==================*/
+
+ST_Switch button0 = {DIO_PORT_D, DIO_PIN_2, SW_PullUp, SW_Enabled};
+ST_Switch button1 = {DIO_PORT_D, DIO_PIN_3, SW_PullUp, SW_Enabled};
+
+/*=============== Function Prototypes =================*/
+
+EN_SWError_t SW_EnableSwitch(ST_Switch* Copy_pSW_tSwitch)
+{
+	uint8_t Local_ErrorState = OK;
+
+	if(Copy_pSW_tSwitch != NULL)
+	{
+		Copy_pSW_tSwitch->State = SW_Enabled;
+	}
+	else
+	{
+		Local_ErrorState = NOK;
+	}
+
+	return Local_ErrorState;
+}
+
+EN_SWError_t SW_DisableSwitch(ST_Switch* Copy_pSW_tSwitch)
+{
+	uint8_t Local_ErrorState = SW_OK;
+
+	if(Copy_pSW_tSwitch != NULL)
+	{
+		Copy_pSW_tSwitch->State = SW_Disabled;
+	}
+	else
+	{
+		Local_ErrorState = SW_ERROR;
+	}
+
+	return Local_ErrorState;
+}
+
+EN_SWError_t SW_ReadSwitch(ST_Switch* Copy_pSW_tSwitch, uint8_t* Copy_pu8SwitchState)
+{
+	uint8_t Local_ErrorState = OK;
+	uint8_t Local_SwitchValue;
+
+	if((Copy_pSW_tSwitch != NULL) && (Copy_pu8SwitchState != NULL) && (Copy_pSW_tSwitch->State != SW_Disabled))
+	{
+		DIO_GetPinVal(Copy_pSW_tSwitch->Port, Copy_pSW_tSwitch->Pin, &Local_SwitchValue);
+
+		if(Copy_pSW_tSwitch->PullType == SW_PullUp)
+		{
+			*Copy_pu8SwitchState = !Local_SwitchValue;
+		}
+		else if(Copy_pSW_tSwitch->PullType == SW_PullDown)
+		{
+			*Copy_pu8SwitchState = Local_SwitchValue;
+		}
+		else
+		{
+			Local_ErrorState = NOK;
+		}
+	}
+	else
+	{
+		Local_ErrorState = NOK;
+	}
+
+	return Local_ErrorState;
+}
+
+EN_SWError_t SW_EXTIMode(ST_Switch* Copy_pSW_tSwitch, EN_SW_Interrupt_t Copy_IntEvent, void (*Copy_pvCallbackFn)(void))
+{
+	uint8_t Local_EXTIpin, Local_ErrorState = OK;
+	
+	/* Get the EXTI pin */
+	if(Copy_pSW_tSwitch->Port == DIO_PORT_D)
+	{
+		if(Copy_pSW_tSwitch->Pin == DIO_PIN_2)	
+			Local_EXTIpin = EXTI0;
+		else if(Copy_pSW_tSwitch->Pin == DIO_PIN_3) 
+			Local_EXTIpin = EXTI1;
+		else return NOK;
+	}
+	else if(Copy_pSW_tSwitch->Port == DIO_PORT_D && Copy_pSW_tSwitch->Pin == DIO_PIN_2)
+	{
+		Local_EXTIpin = EXTI2;
+	}
+	else
+	{
+		return SW_ERROR;
+	}
+	
+	EXTI_Init(Local_EXTIpin, Copy_IntEvent);
+	EXTI_Enable(Local_EXTIpin);
+	EXTI_SetCallback(Local_EXTIpin, Copy_pvCallbackFn);
+	
+	return SW_OK;
+}
