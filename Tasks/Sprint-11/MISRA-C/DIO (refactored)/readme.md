@@ -1,6 +1,6 @@
 ## LED Sequence V1.0 
 
-> []()
+> [Video](https://drive.google.com/file/d/1lZ8cKttkaq5X1-wFCvSyR9ggjNhiiFgd/view?usp=sharing)
 
 ### Description 
 
