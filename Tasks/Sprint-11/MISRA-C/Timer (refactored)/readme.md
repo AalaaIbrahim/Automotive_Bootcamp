@@ -1,36 +1,38 @@
-## LED Sequence V1.0 
+## LED Sequence V3.0 
 
-> [Video](https://drive.google.com/file/d/1lZ8cKttkaq5X1-wFCvSyR9ggjNhiiFgd/view?usp=sharing)
-> [Refactored Timer Driver]()
+> * [Video](https://drive.google.com/file/d/1sK6WWZ589QJ7y2ME4nNi7r36fdIk8Wcp/view?usp=sharing)
+> 
+> * [Refactored Timer Driver](https://github.com/AalaaIbrahim/Automotive_Bootcamp/blob/main/Tasks/Sprint-11/MISRA-C/Timer%20(refactored)/project/MISRA_02/MCAL/TIM0/TIM_program.c)
 
 ### Description 
 
-The software is designed to implement a certain sequence using 4 LEDs and a push button.
+The software is designed to implement a certain sequence using 4 LEDs and two push buttons.
 
 <details>
-  <summary>Expand for detailed LED sequence </summary>
+  <summary>Expand for application details <br></br></summary>
 
-1.   The sequence is described below
-1.   Initially (OFF, OFF, OFF, OFF)
-2.   Press 1 (BLINK_1, OFF, OFF, OFF)
-3.   Press 2 (BLINK_1, BLINK_1, OFF, OFF)
-4.   Press 3 (BLINK_1, BLINK_1, BLINK_1, OFF)
-5.   Press 4 (BLINK_1, BLINK_1, BLINK_1, BLINK_1)
-6.   Press 5 (OFF, BLINK_1, BLINK_1, BLINK_1)
-7.   Press 6 (OFF, OFF, BLINK_1, BLINK_1)
-8.   Press 7 (OFF, OFF, OFF, BLINK_1)
-9.   Press 8 (OFF, OFF, OFF, OFF)
-10. Press 9 (BLINK_1, OFF, OFF, OFF)
+1.   The LED sequence is described below
+>1.   Initially (OFF, OFF, OFF, OFF)
+>2.   Press 1 (BLINK_1, OFF, OFF, OFF)
+>3.   Press 2 (BLINK_1, BLINK_1, OFF, OFF)
+>4.   Press 3 (BLINK_1, BLINK_1, BLINK_1, OFF)
+>5.   Press 4 (BLINK_1, BLINK_1, BLINK_1, BLINK_1)
+>6.   Press 5 (OFF, BLINK_1, BLINK_1, BLINK_1)
+>7.   Press 6 (OFF, OFF, BLINK_1, BLINK_1)
+>8.   Press 7 (OFF, OFF, OFF, BLINK_1)
+>9.   Press 8 (OFF, OFF, OFF, OFF)
+>10. Press 9 (BLINK_1, OFF, OFF, OFF)
 
 2.   When BUTTON1 has pressed the blinking on and off durations will be changed 
-1.   No press → BLINK_1 mode (ON: 100ms, OFF: 900ms)
-2.   First press → BLINK_2 mode (ON: 200ms, OFF: 800ms)
-3.   Second press → BLINK_3 mode (ON: 300ms, OFF: 700ms)
-4.   Third press → BLINK_4 mode (ON: 500ms, OFF: 500ms)
-5.   Fourth press → BLINK_5 mode (ON: 800ms, OFF: 200ms)
-6.   Fifth press → BLINK_1 mode
+>1.   No press → BLINK_1 mode (ON: 100ms, OFF: 900ms)
+>2.   First press → BLINK_2 mode (ON: 200ms, OFF: 800ms)
+>3.   Second press → BLINK_3 mode (ON: 300ms, OFF: 700ms)
+>4.   Third press → BLINK_4 mode (ON: 500ms, OFF: 500ms)
+>5.   Fourth press → BLINK_5 mode (ON: 800ms, OFF: 200ms)
+>6.   Fifth press → BLINK_1 mode
 
-></details>
+<br></br>
+</details>
 
 In this task, the Timer driver is refactored to be compliant with the following MISRA Rules
 
