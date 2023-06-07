@@ -6,9 +6,11 @@
 #include "TIM_config.h"
 #include "TIM_interface.h"
 
+/*==================== Global Variables =====================*/
 /* prescaler options */
-uint16_t_ prescalers[] = {TIM0_PRSCLR_1, TIM0_PRSCLR_8, TIM0_PRSCLR_64, TIM0_PRSCLR_256, TIM0_PRSCLR_1024};
+static uint16_t_ prescalers[] = {TIM0_PRSCLR_1, TIM0_PRSCLR_8, TIM0_PRSCLR_64, TIM0_PRSCLR_256, TIM0_PRSCLR_1024};
 	
+/*================= Function Implementation ==================*/
 
 EN_TIMErrorState_t TIM0_voidInit(EN_TIMMode_t Copy_timerMode)
 {
@@ -32,11 +34,11 @@ EN_TIMErrorState_t TIM0_voidInit(EN_TIMMode_t Copy_timerMode)
 	return Local_tim0_state;
 }
 
-EN_TIMErrorState_t TIM0_Start(uint8_t_ Copy_prescaler)
+EN_TIMErrorState_t TIM0_Start(EN_TIM_CLK_SELECT_t Copy_prescaler)
 {
 	EN_TIMErrorState_t Local_ErrorState = TIM_OK;
 	
-	if(Copy_prescaler > TIM_NO_CLOCK && Copy_prescaler <= TIM_EXTERNAL_RISING_EDGE)
+	if((Copy_prescaler > TIM_NO_CLOCK) && (Copy_prescaler <= TIM_EXTERNAL_RISING_EDGE))
 	{
 		/* Clear the prescaler bits */
 		TCCR0 &= TIM0_CLK_MASK;
@@ -66,7 +68,7 @@ void TIM0_SyncDelay(uint32_t_ Copy_delayTime, en_timeUnits_t Copy_timeUnit)
 {
 	uint8_t_ Local_u8_prescaler, Local_TotalOverFlows, Local_OverFlowCounter=0;
 	uint16_t_ Local_TotalTicks;
-	float Local_TickTime;
+	f32_t_ Local_TickTime;
 	
 	/* Get Value in micro seconds */
 	if(Copy_timeUnit == Seconds)		{Copy_delayTime *= 1000000;}
