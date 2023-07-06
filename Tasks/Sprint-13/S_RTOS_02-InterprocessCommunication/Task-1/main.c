@@ -90,6 +90,7 @@
 
 #define PRI_1							1
 #define PRI_2							2
+#define BIT_0							0
 
 /*
  * Configure the processor for use with the Keil demo board.  This is very
@@ -110,67 +111,6 @@ SemaphoreHandle_t gl_sem_pin_access;
 
 /*-----------------------------------------------------------*/
 
-void Led_Task(void* parameters)
-{
-	static UBaseType_t ux_sem_take;
-	for(;;)
-	{
-		ux_sem_take = xSemaphoreTake(gl_sem_pin_access, portMAX_DELAY);
-		if(pdTRUE == ux_sem_take)
-		{
-			/* Get LED state */
-			lo_en_led_state = GPIO_read(LED_PORT, LED_PIN);
-			
-			/* Toggle LED state */
-			TOG_BIT(lo_en_led_state, BIT_0);
-			
-			/* Write new LED state */
-			GPIO_write(LED_PORT, LED_PIN, lo_en_led_state);
-			
-			/* Release the semaphor */
-			xSemaphoreGive(gl_sem_pin_access);
-		}
-	}
-}
-
-
-void ReadButton_Task(void* parameters)
-{
-	UBaseType_t ux_btn_state;
-	static UBaseType_t ux_sem_take;
-	volatile int ux_elapsed_time;
-	static UBaseType_t ux_counter = 0;
-	
-	for(;;)
-	{
-		xSemaphoreGive(gl_sem_pin_access);
-		ux_sem_take = xSemaphoreTake(gl_sem_pin_access, portMAX_DELAY);
-		
-		if(pdTRUE == ux_sem_take)
-		{
-			ux_btn_state = GPIO_read(PORT_0, PIN0);
-			
-			if(BTN_PRESSED == ux_btn_state)
-			{
-				/* Delay for debouncing */
-				vTaskDelay(BTN_DEBOUNCE_DELAY);
-				
-				ux_counter++;
-			}
-			else if(ux_counter != 0)
-			{
-				/* Reset the counter */
-				ux_counter = 0;
-				
-				/* Release the semaphore */
-				xSemaphoreGive(gl_sem_pin_access);			
-			}
-		}
-		vTaskDelay(BTN_READ_PERIDOICITY);
-	}
-}
-
-
 /*
  * Application entry point:
  * Starts all the other tasks, then starts the scheduler. 
@@ -179,12 +119,10 @@ int main( void )
 {
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
-
-	gl_sem_pin_access = xSemaphoreCreateBinary();
 	
   /* Create Tasks here */
   	/*          pvTaskCode     , pcName    ,     usStackDepth        , pvParameters, uxPriority ,  pxCreatedTask   */
-	xTaskCreate(Led1_Task	   , "Led 1"   , configMINIMAL_STACK_SIZE, NULL		, PRI_1      , &Led\Task_Handler);	
+	xTaskCreate(Led_Task	   , "Led 1"   , configMINIMAL_STACK_SIZE, NULL		, PRI_1      , &LedTask_Handler);	
 	xTaskCreate(ReadButton_Task, "Button"  , configMINIMAL_STACK_SIZE, NULL     , PRI_2      , &ButtonTask_Handler);
 	
 	/* Now all the tasks have been started - start the scheduler.
@@ -200,6 +138,72 @@ int main( void )
 	available for the idle task to be created. */
 	for( ;; );
 }
+
+/*-----------------------------------------------------------*/
+/* Tasks 																										 */
+/*-----------------------------------------------------------*/
+/**
+ * @breif Task to toggle the value of 
+ *				an LED
+ */
+void Led_Task(void* parameters)
+{
+	uint32_t lo_u32_state;
+	pinState_t lo_en_led_state;
+	
+	for(;;)
+	{
+		lo_u32_state = ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+		
+		if(pdTRUE == lo_u32_state)
+		{
+			/* Get LED state */
+			lo_en_led_state = GPIO_read(LED_PORT, LED_PIN);
+			
+			/* Toggle LED state */
+			TOG_BIT(lo_en_led_state, BIT_0);
+			
+			/* Write new LED state */
+			GPIO_write(LED_PORT, LED_PIN, lo_en_led_state);
+		}
+	}
+}
+
+/**
+ * @breif Task to read the state of 
+ *				a push button
+ */
+void ReadButton_Task(void* parameters)
+{
+	UBaseType_t ux_btn_state;
+	static UBaseType_t ux_sem_take;
+	volatile int ux_elapsed_time;
+	static UBaseType_t ux_counter = 0;
+	
+	for(;;)
+	{
+		ux_btn_state = GPIO_read(PORT_0, PIN0);
+		
+		if(BTN_PRESSED == ux_btn_state)
+		{
+			/* Delay for debouncing */
+			if(!ux_counter) vTaskDelay(BTN_DEBOUNCE_DELAY);
+			
+			ux_counter++;
+		}
+		else if(ux_counter != 0) // button released
+		{
+			/* Reset the counter */
+			ux_counter = 0;
+			
+			/* Notify the LED task */	
+			xTaskNotifyGive(LedTask_Handler);
+		}
+		
+		vTaskDelay(BTN_READ_PERIDOICITY);
+	}
+}
+
 /*-----------------------------------------------------------*/
 
 /* Function to reset timer 1 */
