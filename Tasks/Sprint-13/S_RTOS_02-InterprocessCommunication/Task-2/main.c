@@ -111,7 +111,6 @@ TaskHandle_t Serial2Task_Handler = NULL;
  */
 int main( void )
 {
-	volatile int waterMark = 0;
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
 
@@ -143,7 +142,7 @@ void Serial_Task1(void* parameters)
 	static UBaseType_t ux_sem_take;
 	static const char* ptr_char_task1_str = "Task 1 string\n\r";
 	
-	uint8_t counter;
+	uint8_t lo_u8_counter;
 	xSemaphoreGive(gl_sem_serial_access);
 	
 	for(;;)
@@ -151,7 +150,7 @@ void Serial_Task1(void* parameters)
 		ux_sem_take = xSemaphoreTake(gl_sem_serial_access, portMAX_DELAY);
 		if(pdTRUE == ux_sem_take)
 		{
-			for(counter=0; counter < SERIAL_STR_REPEAT_COUNT; counter++)
+			for(lo_u8_counter=0; lo_u8_counter < SERIAL_STR_REPEAT_COUNT; lo_u8_counter++)
 			{
 				while(pdFALSE == vSerialPutString((const signed char*)ptr_char_task1_str, SERIAL_STR_SIZE));
 			}
@@ -170,21 +169,21 @@ void Serial_Task2(void* parameters)
 	
 	static const char* ptr_char_task2_str = "Task 2 string\n\r";
 	
-	uint8_t counter;
-	uint32_t count;
+	uint8_t lo_u8_write_counter;
+	uint32_t lo_u32_count;
 	
 	for(;;)
 	{		
 		ux_sem_take = xSemaphoreTake(gl_sem_serial_access, portMAX_DELAY);
 		if(pdTRUE == ux_sem_take)
 		{
-			for(counter=0; counter < SERIAL_STR_REPEAT_COUNT; counter++)
+			for(lo_u8_write_counter=0; lo_u8_write_counter < SERIAL_STR_REPEAT_COUNT; lo_u8_write_counter++)
 			{
 				/* Write string */
 				while(pdFALSE == vSerialPutString((const signed char*)ptr_char_task2_str, SERIAL_STR_SIZE));
 				
 				/* Heavy load simulation */
-				for(count=0; count < HEAVY_LOAD_COUNT; count++);
+				for(lo_u32_count=0; lo_u32_count < HEAVY_LOAD_COUNT; lo_u32_count++);
 			}
 			
 			/* Release the semaphore */

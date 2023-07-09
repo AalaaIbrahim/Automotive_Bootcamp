@@ -121,7 +121,6 @@ static QueueHandle_t gl_consumer_queue;
  */
 int main( void )
 {
-	volatile int waterMark = 0;
 	/* Setup the hardware for use with the Keil demo board. */
 	prvSetupHardware();
 	
@@ -151,15 +150,15 @@ int main( void )
 /*-----------------------------------------------------------*/
 static void Button1_Task(void* parameters)
 {
-	UBaseType_t ux_btn_state = BTN_NOT_PRESSED;
+	pinState_t lo_en_btn_state = BTN_NOT_PRESSED;
 	static const char* ptr_char_rising_edge_msg = "Button 1 Rising Edge\n";
 	static const char* ptr_char_falling_edge_msg = "Button 1 Falling Edge\n";
 	
 	for(;;)
 	{
-		ux_btn_state = GPIO_read(BTN_1_PORT, BTN_1_PIN);
+		lo_en_btn_state = GPIO_read(BTN_1_PORT, BTN_1_PIN);
 		
-		if(BTN_PRESSED == ux_btn_state)
+		if(BTN_PRESSED == lo_en_btn_state)
 		{
 			/* Append the consumer task's message queue */
 			xQueueSend(gl_consumer_queue, (void*)&ptr_char_rising_edge_msg, portMAX_DELAY);
@@ -185,15 +184,15 @@ static void Button1_Task(void* parameters)
 
 static void Button2_Task(void* parameters)
 {
-	UBaseType_t ux_btn_state = BTN_NOT_PRESSED;
+	pinState_t lo_en_btn_state = BTN_NOT_PRESSED;
 	static const char* ptr_char_rising_edge_msg = "Button 2 Rising Edge\n";
 	static const char* ptr_char_falling_edge_msg = "Button 2 Falling Edge\n";
 	
 	for(;;)
 	{
-		ux_btn_state = GPIO_read(BTN_2_PORT, BTN_2_PIN);
+		lo_en_btn_state = GPIO_read(BTN_2_PORT, BTN_2_PIN);
 		
-		if(BTN_PRESSED == ux_btn_state)
+		if(BTN_PRESSED == lo_en_btn_state)
 		{
 			/* Append the consumer task's message queue */
 			xQueueSend(gl_consumer_queue, (void*)&ptr_char_rising_edge_msg, portMAX_DELAY);

@@ -87,6 +87,7 @@
 #define BTN_DEBOUNCE_DELAY					100
 #define BTN_NOT_PRESSED						0
 #define BTN_PRESSED							1
+#define ZERO								0
 
 #define PRI_1							1
 #define PRI_2							2
@@ -175,26 +176,24 @@ void Led_Task(void* parameters)
  */
 void ReadButton_Task(void* parameters)
 {
-	UBaseType_t ux_btn_state;
-	static UBaseType_t ux_sem_take;
-	volatile int ux_elapsed_time;
-	static UBaseType_t ux_counter = 0;
+	pinState_t lo_en_btn_state;
+	uint32_t lo_u32_counter = ZERO;
 	
 	for(;;)
 	{
-		ux_btn_state = GPIO_read(PORT_0, PIN0);
+		lo_en_btn_state = GPIO_read(PORT_0, PIN0);
 		
-		if(BTN_PRESSED == ux_btn_state)
+		if(BTN_PRESSED == lo_en_btn_state)
 		{
 			/* Delay for debouncing */
-			if(!ux_counter) vTaskDelay(BTN_DEBOUNCE_DELAY);
+			if(!lo_u32_counter) vTaskDelay(BTN_DEBOUNCE_DELAY);
 			
-			ux_counter++;
+			lo_u32_counter++;
 		}
-		else if(ux_counter != 0) // button released
+		else if(lo_u32_counter != ZERO) // button released
 		{
 			/* Reset the counter */
-			ux_counter = 0;
+			lo_u32_counter = ZERO;
 			
 			/* Notify the LED task */	
 			xTaskNotifyGive(LedTask_Handler);
