@@ -76,7 +76,8 @@
 /* Constants for the ComTest demo application tasks. */
 #define mainCOM_TEST_BAUD_RATE	( ( unsigned long ) 115200 )
 	
-#define BIT_0									0
+#define BIT_0							0
+#define RESET_VALUE						0
 
 #define _2_SECONDS						2000
 #define _4_SECONDS						4000
@@ -204,7 +205,7 @@ void Led2_Task(void* parameters)
 void ReadButton_Task(void* parameters)
 {
 	pinState_t lo_en_btn_state;
-	volatile uint32_t lo_u32_elapsed_time;
+	uint32_t lo_u32_elapsed_time;
 	static UBaseType_t ux_counter;
 	
 	for(;;)
@@ -218,7 +219,7 @@ void ReadButton_Task(void* parameters)
 			
 			ux_counter++;
 		}
-		else if(ux_counter != 0)
+		else if(ux_counter != RESET_VALUE)
 		{
 			/* Get elapsed time */
 			lo_u32_elapsed_time = (ux_counter * BTN_READ_PERIDOICITY) + BTN_DEBOUNCE_DELAY;
@@ -230,8 +231,8 @@ void ReadButton_Task(void* parameters)
 				vTaskSuspend(Led2Task_Handler);
 				
 				/* Reset the counter */
-				ux_counter = 0;
-				lo_u32_elapsed_time = 0;
+				ux_counter = RESET_VALUE;
+				lo_u32_elapsed_time = RESET_VALUE;
 				
 				/* Turn the LED off */
 				GPIO_write(LED_PORT, LED_PIN, PIN_IS_LOW);
@@ -242,8 +243,8 @@ void ReadButton_Task(void* parameters)
 				vTaskSuspend(Led1Task_Handler);
 				
 				/* Reset the counter */
-				ux_counter = 0;
-				lo_u32_elapsed_time = 0;
+				ux_counter = RESET_VALUE;
+				lo_u32_elapsed_time = RESET_VALUE;
 				
 				/* Resume the task with right blinking mode */
 				vTaskResume(Led2Task_Handler);
@@ -254,8 +255,8 @@ void ReadButton_Task(void* parameters)
 				vTaskSuspend(Led2Task_Handler);
 				
 				/* Reset the counter */
-				ux_counter = 0;
-				lo_u32_elapsed_time = 0;
+				ux_counter = RESET_VALUE;
+				lo_u32_elapsed_time = RESET_VALUE;
 				
 				/* Resume the task with right blinking mode */
 				vTaskResume(Led1Task_Handler);
